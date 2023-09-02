@@ -19,33 +19,33 @@
 
 ### Setup
 
-\`\`\`kotlin
+```kotlin
 @Before
 fun setUp() {
     // Initialize objects, mocks, etc.
 }
-\`\`\`
+```
 
 ### Basic Test
 
-\`\`\`kotlin
+```kotlin
 @Test
 fun shouldDoSomething() {
     // Arrange
     // Act
     // Assert
 }
-\`\`\`
+```
 
 ### Mocking with Mockito
 
-\`\`\`kotlin
+```kotlin
 @Mock
 lateinit var mockObject: SomeClass
 
 // Stubbing
 `when`(mockObject.someMethod()).thenReturn(someValue)
-\`\`\`
+```
 
 ### Verifying Method Calls
 
