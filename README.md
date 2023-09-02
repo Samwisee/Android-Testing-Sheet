@@ -49,9 +49,9 @@ lateinit var mockObject: SomeClass
 
 ### Verifying Method Calls
 
-\`\`\`kotlin
+```kotlin
 verify(mockObject).someMethod()
-\`\`\`
+```
 
 ## Integration Testing
 
@@ -60,37 +60,37 @@ verify(mockObject).someMethod()
 
 ### Example
 
-\`\`\`kotlin
+```kotlin
 @RunWith(AndroidJUnit4::class)
 class MyIntegrationTest {
     // Your test code
 }
-\`\`\`
+```
 
 ## UI Testing with Espresso
 
 ### Basic Test
 
-\`\`\`kotlin
+```kotlin
 @Test
 fun shouldDisplayText() {
     onView(withId(R.id.myTextView))
         .check(matches(withText("Hello World")))
 }
-\`\`\`
+```
 
 ### Click Action
 
-\`\`\`kotlin
+```kotlin
 onView(withId(R.id.myButton)).perform(click())
-\`\`\`
+```
 
 ### Test RecyclerView
 
-\`\`\`kotlin
+```kotlin
 onView(withId(R.id.myRecyclerView))
     .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-\`\`\`
+```
 
 ## Robolectric
 
@@ -98,12 +98,12 @@ onView(withId(R.id.myRecyclerView))
 
 ### Example
 
-\`\`\`kotlin
+```kotlin
 @RunWith(RobolectricTestRunner::class)
 class MyRobolectricTest {
     // Your test code
 }
-\`\`\`
+```
 
 ## Continuous Integration
 
