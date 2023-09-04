@@ -7,6 +7,12 @@
 3. **Descriptive Test Names**: Use clear and descriptive test method names.
 4. **Test Behavior, Not Implementation**: Your tests should not break if you refactor code.
 
+### Red-Green-Refactor Cycle
+
+- **Red**: Write a failing test.
+- **Green**: Write just enough code to make the test pass.
+- **Refactor**: Clean up the code while keeping it functional.
+
 ## Libraries and Tools
 
 - **JUnit**: For unit tests.
@@ -23,6 +29,7 @@
 @Before
 fun setUp() {
     // Initialize objects, mocks, etc.
+    MockitoAnnotations.openMocks(this)
 }
 ```
 
@@ -30,10 +37,16 @@ fun setUp() {
 
 ```kotlin
 @Test
-fun shouldDoSomething() {
+fun shouldAddTwoNumbers() {
     // Arrange
+    val a = 5
+    val b = 10
+
     // Act
+    val result = a + b
+
     // Assert
+    assertEquals(15, result)
 }
 ```
 
@@ -41,16 +54,29 @@ fun shouldDoSomething() {
 
 ```kotlin
 @Mock
-lateinit var mockObject: SomeClass
+lateinit var userRepository: UserRepository
 
 // Stubbing
-`when`(mockObject.someMethod()).thenReturn(someValue)
+@Before
+fun setUp() {
+    `when`(userRepository.authenticate("user", "pass")).thenReturn(true)
+}
 ```
 
 ### Verifying Method Calls
 
 ```kotlin
-verify(mockObject).someMethod()
+@Test
+fun shouldCallAuthenticate() {
+    // Arrange
+    val viewModel = LoginViewModel(userRepository)
+
+    // Act
+    viewModel.login("user", "pass")
+
+    // Assert
+    verify(userRepository).authenticate("user", "pass")
+}
 ```
 
 ## Integration Testing
@@ -63,7 +89,10 @@ verify(mockObject).someMethod()
 ```kotlin
 @RunWith(AndroidJUnit4::class)
 class MyIntegrationTest {
-    // Your test code
+    @Test
+    fun shouldFetchAndDisplayData() {
+        // Your test code
+    }
 }
 ```
 
@@ -82,14 +111,21 @@ fun shouldDisplayText() {
 ### Click Action
 
 ```kotlin
-onView(withId(R.id.myButton)).perform(click())
+@Test
+fun shouldUpdateTextOnClick() {
+    onView(withId(R.id.myButton)).perform(click())
+    onView(withId(R.id.myTextView)).check(matches(withText("Button Clicked")))
+}
 ```
 
 ### Test RecyclerView
 
 ```kotlin
-onView(withId(R.id.myRecyclerView))
-    .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+@Test
+fun shouldSelectRecyclerViewItem() {
+    onView(withId(R.id.myRecyclerView))
+        .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+}
 ```
 
 ## Robolectric
@@ -101,11 +137,16 @@ onView(withId(R.id.myRecyclerView))
 ```kotlin
 @RunWith(RobolectricTestRunner::class)
 class MyRobolectricTest {
-    // Your test code
+    @Test
+    fun shouldChangeActivityTitle() {
+        val activity: MainActivity = Robolectric.setupActivity(MainActivity::class.java)
+        activity.title = "New Title"
+
+        assertEquals("New Title", activity.title)
+    }
 }
 ```
 
 ## Continuous Integration
 
 - Use CI tools like Jenkins, CircleCI, or GitHub Actions to automate your tests.
-
