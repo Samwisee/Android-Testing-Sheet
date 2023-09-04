@@ -89,9 +89,23 @@ fun shouldCallAuthenticate() {
 ```kotlin
 @RunWith(AndroidJUnit4::class)
 class MyIntegrationTest {
+
+    @Mock
+    private lateinit var dataRepository: DataRepository
+
+    @Before
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
+        `when`(dataRepository.fetchData()).thenReturn("Hello, World!")
+    }
+
     @Test
     fun shouldFetchAndDisplayData() {
-        // Your test code
+        // Launch MainActivity
+        ActivityScenario.launch(MainActivity::class.java)
+
+        // Verify that the TextView displays the fetched data
+        onView(withId(R.id.textView)).check(matches(withText("Hello, World!")))
     }
 }
 ```
