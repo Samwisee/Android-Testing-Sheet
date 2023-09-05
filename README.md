@@ -1,4 +1,4 @@
-# Android Testing Cheat Sheet
+# Android Testing Sheet
 
 ## General Best Practices
 
