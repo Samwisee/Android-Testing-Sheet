@@ -164,3 +164,46 @@ class MyRobolectricTest {
 ## Continuous Integration
 
 - Use CI tools like Jenkins, CircleCI, or GitHub Actions to automate your tests.
+
+## Full Test Example
+
+interface NumberRepository {
+    fun getNumbers(): List<Int>
+}
+
+// ViewModel
+class NumberViewModel(private val numberRepository: NumberRepository) : ViewModel() {
+    fun getOddNumbers(): List<Int> {
+        val numbers = numberRepository.getNumbers()
+        return numbers.filter { it % 2 != 0 }
+    }
+}
+
+// Test
+```
+class NumberViewModelTest {
+
+    private lateinit var viewModel: NumberViewModel
+
+    @Mock
+    private lateinit var repository: NumberRepository
+
+    @Before
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
+        viewModel = NumberViewModel(repository)
+    }
+
+    @Test
+    fun testGetOddNumbers() {
+        // Arrange
+        `when`(repository.getNumbers()).thenReturn(listOf(1, 2, 3, 4, 5))
+
+        // Act
+        val result = viewModel.getOddNumbers()
+
+        // Assert
+        assertEquals(listOf(1, 3, 5), result)
+    }
+}
+```
