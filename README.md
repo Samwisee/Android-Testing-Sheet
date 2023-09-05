@@ -167,11 +167,11 @@ class MyRobolectricTest {
 
 ## Full Test Example
 
+```
 interface NumberRepository {
     fun getNumbers(): List<Int>
 }
 
-// ViewModel
 class NumberViewModel(private val numberRepository: NumberRepository) : ViewModel() {
     fun getOddNumbers(): List<Int> {
         val numbers = numberRepository.getNumbers()
@@ -179,8 +179,6 @@ class NumberViewModel(private val numberRepository: NumberRepository) : ViewMode
     }
 }
 
-// Test
-```
 class NumberViewModelTest {
 
     private lateinit var viewModel: NumberViewModel
